@@ -6,7 +6,8 @@
     </div>
   </div>
   <div class="row mt-4">
-    <div class="col-sm-3">
+
+		<div class="col-sm-3">
       <div class="form-group form-check" (click)="viewScrollBar()">
 				<input type="checkbox" class="form-check-input clickable-item"
 					id="exampleCheck1" [(ngModel)]="showScroll">
@@ -14,7 +15,19 @@
 					Mostrar/Ocultar Scroll
 				</label>
 			</div>
-			
-    </div>
+		</div>
+		
+		<div class="col-sm-2">
+			<div class="form-group">
+				<label for="selectyear">
+					Seleccione año
+				</label>
+				<select class="form-control" name="selectyear" [(ngModel)]="selectedYear" (ngModelChange)="setData()">
+					<option [value]="year" *ngFor="let year of years">
+						{{ year }}
+					</option>
+				</select>
+			</div>
+		</div>
   </div>
 </div>

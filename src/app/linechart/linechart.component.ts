@@ -4,7 +4,6 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 am4core.useTheme(am4themes_animated);
-
 @Component({
   selector: 'app-linechart',
   templateUrl: './linechart.component.html',
@@ -13,8 +12,11 @@ am4core.useTheme(am4themes_animated);
 export class LinechartComponent implements OnInit, OnDestroy, AfterViewInit {
   
   private chart: am4charts.XYChart;
+  public  years: number[] = [2015,2016,2017,2018,2019]; 
+  public  selectedYear: number = 2015;
+  public showScroll: boolean = false;
+  private data: any = [];
 
-  showScroll: boolean = false;
   constructor(private zone: NgZone) { }
 
   ngOnInit(): void {
@@ -34,14 +36,7 @@ export class LinechartComponent implements OnInit, OnDestroy, AfterViewInit {
   
       chart.paddingRight = 40;
 
-      let data = [];
-      let visits = 10;
-      for (let i = 1; i < 366; i++) {
-        visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-        data.push({ date: new Date(2019, 0, i), name: "name" + i, value: visits });
-      }
-
-      chart.data = data;
+      chart.data = [];
 
       let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
       dateAxis.renderer.grid.template.location = 0;
@@ -49,7 +44,7 @@ export class LinechartComponent implements OnInit, OnDestroy, AfterViewInit {
       let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
       valueAxis.tooltip.disabled = true;
       valueAxis.renderer.minWidth = 35;
-
+      
       let series = chart.series.push(new am4charts.LineSeries());
       series.dataFields.dateX = "date";
       series.dataFields.valueY = "value";
@@ -67,11 +62,24 @@ export class LinechartComponent implements OnInit, OnDestroy, AfterViewInit {
       chart.scrollbarY.visible = this.showScroll;
 
       this.chart = chart;
+      this.setData();
     });
+  }
+
+  setData():void {
+    this.data = [];
+    this.chart.data = this.data;
+    let visits = 10;
+    for (let i = 1; i < 366; i++) {
+      visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
+      this.data.push({ date: new Date(this.selectedYear, 0, i), name: "name" + i, value: visits });
+    }
+    this.chart.data = this.data;
   }
 
   viewScrollBar():void {
     this.chart.scrollbarX.visible = !this.showScroll;
     this.chart.scrollbarY.visible = !this.showScroll;
   }
+
 }
