@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LinechartComponent } from './linechart/linechart.component';
@@ -8,10 +8,11 @@ import { LinechartComponent } from './linechart/linechart.component';
 @NgModule({
   declarations: [
     AppComponent,
-    LinechartComponent
+    LinechartComponent    
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule
   ],
   providers: [],

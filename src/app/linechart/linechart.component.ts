@@ -14,6 +14,7 @@ export class LinechartComponent implements OnInit, OnDestroy, AfterViewInit {
   
   private chart: am4charts.XYChart;
 
+  showScroll: boolean = false;
   constructor(private zone: NgZone) { }
 
   ngOnInit(): void {
@@ -59,8 +60,18 @@ export class LinechartComponent implements OnInit, OnDestroy, AfterViewInit {
       let scrollbarX = new am4charts.XYChartScrollbar();
       scrollbarX.series.push(series);
       chart.scrollbarX = scrollbarX;
-  
+      chart.scrollbarX.visible = this.showScroll;
+
+      let scrollbarY = new am4core.Scrollbar();
+      chart.scrollbarY = scrollbarY;
+      chart.scrollbarY.visible = this.showScroll;
+
       this.chart = chart;
     });
+  }
+
+  viewScrollBar():void {
+    this.chart.scrollbarX.visible = !this.showScroll;
+    this.chart.scrollbarY.visible = !this.showScroll;
   }
 }
