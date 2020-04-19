@@ -4,11 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LinechartComponent } from './linechart/linechart.component';
+import { HalfpiechartComponent } from './halfpiechart/halfpiechart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LinechartComponent    
+    LinechartComponent,
+    HalfpiechartComponent    
   ],
   imports: [
     BrowserModule,
