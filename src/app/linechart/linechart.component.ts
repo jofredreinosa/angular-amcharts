@@ -18,6 +18,7 @@ export class LinechartComponent implements OnDestroy, AfterViewInit {
   public  showGuides: boolean = false;
   private valueAxis: any;
   private data: any = [];
+  private colors = ['#6abf09','#fcfc02','#fc0213']
 
   constructor(private zone: NgZone) { }
 
@@ -43,7 +44,13 @@ export class LinechartComponent implements OnDestroy, AfterViewInit {
     chart.data = [];
 
     let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+    dateAxis.renderer.minGridDistance = 10;
     dateAxis.renderer.grid.template.location = 0;
+    dateAxis.title.text = 'Tiempo';
+    dateAxis.skipEmptyPeriods = true;
+    dateAxis.dateFormats.setKey("day", "dd-MM-yy");
+    dateAxis.periodChangeDateFormats.setKey("day", "dd-MM-yy");
+    dateAxis.tooltipDateFormat = "dd-MM-yy";
 
     this.valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
     this.valueAxis.tooltip.disabled = true;
@@ -86,18 +93,27 @@ export class LinechartComponent implements OnDestroy, AfterViewInit {
   }
 
   viewGuides(): void {
-    let val = 13;
-    for (let index = 0; index < 3; index++) {
-      var axisRange = this.valueAxis.axisRanges.create();
-      axisRange.value = val;
-      axisRange.grid.stroke = am4core.color("#A96478");
-      axisRange.grid.strokeWidth = 1.2;
-      axisRange.grid.strokeOpacity = 1;
-      axisRange.label.inside = true;
-      axisRange.label.text = "Umbral " + axisRange.value;
-      axisRange.label.fill = axisRange.grid.stroke;
-      axisRange.label.verticalCenter = "bottom";
-      val += 5;
+    this.showGuides = !this.showGuides;
+    if (  this.showGuides ) {
+      let val = 13;
+      for (let index = 0; index < 3; index++) {
+        let index = Math.floor(Math.random() * 3);
+        let color = this.colors[index];
+        var axisRange = this.valueAxis.axisRanges.create();
+        axisRange.value = val;
+        axisRange.grid.stroke = am4core.color(color);
+        axisRange.grid.strokeWidth = 1.2;
+        axisRange.grid.strokeOpacity = 1;
+        axisRange.label.inside = true;
+        axisRange.label.text = "Guía " + axisRange.value;
+        axisRange.label.fill = axisRange.grid.stroke;
+        axisRange.label.fontSize = 12;
+        axisRange.label.verticalCenter = "bottom";
+        val += 5;
+      }
+    }
+    else {
+      this.valueAxis.axisRanges.clear();
     }
   }
 
