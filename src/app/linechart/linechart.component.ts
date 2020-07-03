@@ -2,6 +2,7 @@ import { Component, OnDestroy, NgZone, AfterViewInit } from '@angular/core';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import * as am4plugins_annotation from "@amcharts/amcharts4/plugins/annotation";
 
 am4core.useTheme(am4themes_animated);
 @Component({
@@ -12,8 +13,8 @@ am4core.useTheme(am4themes_animated);
 export class LinechartComponent implements OnDestroy, AfterViewInit {
   
   private chart: am4charts.XYChart;
-  public  years: number[] = [2015,2016,2017,2018,2019]; 
-  public  selectedYear: number = 2015;
+  public  years: number[] = [2016,2017,2018,2019,2020]; 
+  public  selectedYear: number = 2016;
   public  showScroll: boolean = false;
   public  showGuides: boolean = false;
   private valueAxis: any;
@@ -72,6 +73,8 @@ export class LinechartComponent implements OnDestroy, AfterViewInit {
     chart.scrollbarY = scrollbarY;
     chart.scrollbarY.visible = this.showScroll;
 
+    let annotation = chart.plugins.push(new am4plugins_annotation.Annotation());
+    
     this.chart = chart;
     this.setData();
   }
