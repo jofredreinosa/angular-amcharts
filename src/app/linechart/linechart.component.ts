@@ -2,9 +2,12 @@ import { Component, OnDestroy, NgZone, AfterViewInit } from '@angular/core';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import am4themes_dark from "@amcharts/amcharts4/themes/dark";
 import * as am4plugins_annotation from "@amcharts/amcharts4/plugins/annotation";
 
+am4core.useTheme(am4themes_dark);
 am4core.useTheme(am4themes_animated);
+
 @Component({
   selector: 'app-linechart',
   templateUrl: './linechart.component.html',
@@ -39,23 +42,27 @@ export class LinechartComponent implements OnDestroy, AfterViewInit {
 
   createChart():void {
     let chart = am4core.create("chartdiv", am4charts.XYChart);
-  
+    chart.responsive.enabled = true;
     chart.paddingRight = 40;
-
+    chart.background.fill = am4core.color("black");
+    chart.background.opacity = 0.5
     chart.data = [];
 
     let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
     dateAxis.renderer.minGridDistance = 10;
     dateAxis.renderer.grid.template.location = 0;
-    dateAxis.title.text = 'Tiempo';
+    dateAxis.title.text = 'Mes Enero';
     dateAxis.skipEmptyPeriods = true;
-    dateAxis.dateFormats.setKey("day", "dd-MM-yy");
-    dateAxis.periodChangeDateFormats.setKey("day", "dd-MM-yy");
+    dateAxis.dateFormats.setKey("day", "dd");
+    dateAxis.periodChangeDateFormats.setKey("day", "dd");
     dateAxis.tooltipDateFormat = "dd-MM-yy";
 
     this.valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
     this.valueAxis.tooltip.disabled = true;
     this.valueAxis.renderer.minWidth = 35;
+
+    this.valueAxis.title.text = "Visitas";
+    this.valueAxis.title.fontWeight = "bold";
 
     let series = chart.series.push(new am4charts.LineSeries());
     series.dataFields.dateX = "date";
@@ -82,8 +89,8 @@ export class LinechartComponent implements OnDestroy, AfterViewInit {
   setData():void {
     this.data = [];
     this.chart.data = this.data;
-    let visits = 10;
-    for (let i = 1; i < 10; i++) {
+    let visits = 26;
+    for (let i = 1; i < 26; i++) {
       visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
       this.data.push({ date: new Date(this.selectedYear, 0, i), name: "name" + i, value: visits });
     }

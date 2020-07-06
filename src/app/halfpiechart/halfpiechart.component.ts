@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import am4themes_dark from "@amcharts/amcharts4/themes/dark";
+
+am4core.useTheme(am4themes_dark);
+am4core.useTheme(am4themes_animated);
 
 @Component({
   selector: 'app-halfpiechart',
@@ -15,6 +19,8 @@ export class HalfpiechartComponent implements OnInit {
   ngOnInit(): void {
     // crear gráfico
     let chart = am4core.create("chartdiv", am4charts.PieChart);
+    chart.background.fill = am4core.color("black");
+    chart.background.opacity = 0.5
 
     // Datos a mostrar en el gráfico
     chart.data = [{
